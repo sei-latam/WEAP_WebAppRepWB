@@ -3,7 +3,7 @@
 ## Summary
 Development Protocols and Processes for Accessing Data from the Bolivia Surface Water Balance
 
-## Use and install this repository
+### Use and install this repository
 
 HTTPS
 ```html
@@ -19,7 +19,7 @@ Git repositories on Google Earth Engine
 https://earthengine.googlesource.com/users/carlosmendez/ExercicesSEI/+/refs/heads/master/Application_SEI_Water
 ```
 
-## Description
+### Description
 
 Repository built in `Google Earth Engine (GEE)` and `Google Colab`.
 
@@ -33,7 +33,7 @@ Each part is described below:
   
 - Fourth folder (Tests_and_queries)
 
-## Datasets and packages
+### Datasets and packages
 
 #### External Basemaps
 
@@ -54,7 +54,7 @@ var ETReal_pal = ['af0000', 'eb1e00', 'ff6400', 'ffb300', 'ffeb00', '9beb4a', '3
 var ETRef_pal = ['d73027', 'f46d43', 'fdae61', 'fee08b', 'ffffbf', 'd9ef8b', 'a6d96a','66bd63', '1a9850', '006837']; // 10
 ```
 
-## Variables used with Images and ImageCollections
+### Variables, Images and ImageCollections
 
 - 1. Temperature
 
