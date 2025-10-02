@@ -1,10 +1,10 @@
 # WEAP_WebAppRepWB
 
 ## Summary
-Development Protocols and Processes for Accessing Data from the Bolivia Surface Water Balance...
+Development Protocols and Processes for Accessing Data from the Bolivia Surface Water Balance using monthly measurements of temperature, precipitation, runoff, evapotranspiration (real and reference) between 1980 and 2020.
 
 
-App available in :
+Application available at: [https://ee-carlosmendez.projects.earthengine.app/view/hruwatersei](https://ee-carlosmendez.projects.earthengine.app/view/hruwatersei)
 
 ### Use and install this repository
 
