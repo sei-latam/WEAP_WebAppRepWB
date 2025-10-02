@@ -29,12 +29,18 @@ Repository built in `Google Earth Engine (GEE)` and `Google Colab`.
 Each part is described below:
 
 - First folder (Files_and_data)
+ 
+Contains the original files (txt, xlsx, shp, etc.) used in the development of the application. 
   
 - Second folder (Google_Git_versions)
   
+Includes all versions, commits, scripts, codes, and interfaces developed in Google Earth Engine. 
+  
 - Third folder (App_using_Google_Colab)
+
   
 - Fourth folder (Tests_and_queries)
+
 
 ### Datasets and packages
 
