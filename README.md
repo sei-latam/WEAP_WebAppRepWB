@@ -38,8 +38,11 @@ Includes all versions, commits, scripts, codes, and interfaces developed in Goog
   
 - Third folder (App_using_Google_Colab)
 
+A version (under development) is included in the Google Colab system with the functionality to import Keyhole Markup Language (KML) files and perform additional queries. 
   
 - Fourth folder (Tests_and_queries)
+
+The `WEAP_WebAppRepWB` application includes dynamic temporal and spatial queries and filters, allowing users to display graphs, maps, tables, download files, and much more.
 
 
 ### Datasets and packages
