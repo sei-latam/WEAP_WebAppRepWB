@@ -20,5 +20,5 @@ https://earthengine.googlesource.com/users/carlosmendez/ExercicesSEI/+/refs/head
 ```
 Original code and script of App
 ```html
-https://earthengine.googlesource.com/users/carlosmendez/ExercicesSEI/+/refs/heads/master/Application_SEI_Water
+https://earthengine.googlesource.com/users/carlosmendez/ExercicesSEI/+/refs/heads/master/WEAP_WebAppRepWB
 ```
