@@ -1,7 +1,7 @@
 //************************************* Create query to drawing a polygons and plot time series *******************************************
 
 // Add title to the query 'poligonos'
-chartPanel.add(ui.Label('Consultas por polígonos (dibujo)', {stretch: 'horizontal', textAlign: 'center', fontSize: '14px'}));
+chartPanel.add(ui.Label('Gráfico de series de tiempo dibujando 🎨 un polígono en el mapa 🗺️', {stretch: 'horizontal', textAlign: 'center', fontSize: '14px'}));
 
 //Define collections and variables
 var collections_drawing = {
@@ -107,3 +107,4 @@ chartPanel.add(panel_dra);
 
 // add the chartPanel3 to ChartPanel (Big Panel)
 chartPanel.add(chartPanel3);
+
