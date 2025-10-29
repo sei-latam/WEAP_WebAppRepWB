@@ -76,10 +76,10 @@ var chartPanel4 = ui.Panel({
 
 var panel_sli = ui.Panel({style: {width: '300px'}});
 
-chartPanel.add(ui.Label('Filtro de imagenes por variable y fecha 📅 ', {stretch: 'horizontal', textAlign: 'center', fontSize: '14px'}));
-
 panel_sli.add(collectionSelect_t);
 panel_sli.add(dateSlider_t);
 panel_sli.add(displayButton_t);
-chartPanel4.add(panel_sli)
-chartPanel.add(chartPanel4);
+
+left_panel.add(ui.Label('Filtro para agregar imagenes mensuales por variable y fecha 📅 ', {stretch: 'horizontal', textAlign: 'center', fontSize: '14px'}));
+left_panel.add(panel_sli)
+left_panel.add(chartPanel4)
