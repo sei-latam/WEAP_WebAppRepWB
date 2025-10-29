@@ -36,14 +36,9 @@ Contains the original files (txt, xlsx, shp, etc.) used in the development of th
   
 Includes all versions, commits, scripts, codes, and interfaces developed in Google Earth Engine. 
   
-- Third folder (App_using_Google_Colab)
+- Third folder (Tests_and_queries)
 
-A version (under development) is included in the Google Colab system with the functionality to import Keyhole Markup Language (KML) files and perform additional queries. 
-  
-- Fourth folder (Tests_and_queries)
-
-The `WEAP_WebAppRepWB` application includes dynamic temporal and spatial queries and filters, allowing users to display graphs, maps, tables, download files, and much more.
-
+The `WEAP_WebAppRepWB` application includes dynamic temporal and spatial queries and filters, allowing users to display graphs, maps, tables, download files. Also, include the functionality to import Keyhole Markup Language (KML) files and perform additional queries. 
 
 ### Datasets and packages
 
