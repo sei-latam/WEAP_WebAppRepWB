@@ -1,13 +1,17 @@
-//************************************* Create query to download images  *******************************************
 
-// Define UI elements
-var panel = ui.Panel({layout: ui.Panel.Layout.flow('vertical'),   
-                      style: {width: '200px', position: 'bottom-left', margin: '0px', padding: '0px 0px', backgroundColor: 'rgba(255, 255, 255, 0.99)'}});
-var title = ui.Label('Descarga de imagenes mensuales', {fontWeight: 'bold', fontSize: '14px', stretch: 'horizontal', textAlign: 'center'});
+//************************************* Create query to Download and export images *******************************************
 
-  
-// Dropdown for ImageCollections
-var collectionSelect = ui.Select({
+// Initial configuration
+var AOI_dynamic = null; // AOI upload from GeoJSON
+
+var app = {
+  state: {},
+  ui: {},
+  helpers: {}
+};
+
+// User interface
+app.ui.collectionSelect = ui.Select({
   items: [
     {label: 'Temperatura media mes (°C)', value: Temp_Collection_month.select('temperature')},
     {label: 'Precipitación media mes (mm)', value: Prcp_Collection_month.select('precipitation')},
@@ -19,60 +23,95 @@ var collectionSelect = ui.Select({
   style: {stretch: 'horizontal'}
 });
 
-// Date selectors
-var startDate = ui.Textbox({placeholder: 'Formato YYYY-MM-DD', value: '1980-01'});
-var endDate = ui.Textbox({placeholder: 'Formato YYYY-MM-DD', value: '2020-12'});
+app.ui.startDate = ui.Textbox({placeholder: 'Formato YYYY-MM', value: '1980-01'});
+app.ui.endDate = ui.Textbox({placeholder: 'Formato YYYY-MM', value: '1980-03'});
 
-// Button to trigger download
-var downloadButton = ui.Button({
-  label: 'Iniciar Descarga',
+app.ui.downloadButton = ui.Button({
+  label: 'Generar enlaces de descarga directa',
   style: {stretch: 'horizontal', margin: '10px'},
   onClick: function() {
-    var collectionId = collectionSelect.getValue();
-    var start = startDate.getValue();
-    var end = endDate.getValue();
-
-    if (!collectionId || !start || !end) {
-      ui.alert('Please fill in all fields.');
-      return;
-    }
-
-    var collection = collectionId
-      .filterDate(start, end)
-      .filterBounds(AOI) 
-      .map(function(img) {return img.clip(AOI.geometry())})
-      .first(); // Get first image in the filtered collection
-
-    if (collection) {
-      var url = collection.getDownloadURL({
-        name: 'downloaded_image',
-        scale: 1500,
-        region: AOI.geometry()
-      });
-
-  urlLabel.setUrl(url);
-  urlLabel.style().set({shown: true, color: 'blue'});
-      //print('Download URL:', url);
-    } else {
-      print('No image found for the selected parameters.');
-    }
+    app.helpers.createDownloads(false);
   }
 });
 
-var urlLabel = ui.Label('Click para descargar', {stretch: 'horizontal', textAlign: 'center', fontSize: '11px', shown: false});
+app.ui.resultPanel = ui.Panel();
 
-// Assemble UI
-panel.add(title);
-panel.add(ui.Label('Por favor seleccione una colección', {stretch: 'horizontal', textAlign: 'center', fontSize: '11px'}));
-panel.add(collectionSelect);
-panel.add(ui.Label('Digite una fecha (año y mes) entre 1980 y 2020', {stretch: 'horizontal', textAlign: 'center', fontSize: '11px'}));
-panel.add(ui.Label('Digite la fecha inicial',{stretch: 'horizontal', textAlign: 'center', fontSize: '11px'}));
-panel.add(startDate);
-panel.add(ui.Label('Digite la fecha final', {stretch: 'horizontal', textAlign: 'center', fontSize: '11px'}));
-panel.add(endDate);
-panel.add(downloadButton);
-panel.add(ui.Label('Por favor espere unos instantes', {stretch: 'horizontal', textAlign: 'center', fontSize: '11px'}));
-panel.add(urlLabel);
+left_panel.add(ui.Label('Seleccione variable y rango de fechas para exportar imágenes 📁', {
+  stretch: 'horizontal', textAlign: 'center', fontSize: '14px'
+}));
+left_panel.add(app.ui.collectionSelect);
+left_panel.add(ui.Label('Fecha inicial (YYYY-MM)', {textAlign: 'center', fontSize: '11px'}));
+left_panel.add(app.ui.startDate);
+left_panel.add(ui.Label('Fecha final (YYYY-MM)', {textAlign: 'center', fontSize: '11px'}));
+left_panel.add(app.ui.endDate);
+left_panel.add(app.ui.downloadButton);
+left_panel.add(app.ui.resultPanel);
 
-// Add panel to the map
-ui.root.insert(0, panel);
+ui.root.insert(0, left_panel);
+
+// Auxiliar function to export/download
+
+app.helpers.createDownloads = function(toDrive) {
+  var button = app.ui.downloadButton;
+  button.setDisabled(true);
+  var panel = app.ui.resultPanel;
+  panel.clear();
+  panel.add(ui.Label('⚙️ Generando enlaces de descarga...', {fontWeight: 'bold'}));
+
+  var collection = app.ui.collectionSelect.getValue();
+  var start = app.ui.startDate.getValue();
+  var end = app.ui.endDate.getValue();
+
+  if (!AOI_dynamic) {
+    ui.alert('❗ Primero cargue un archivo GeoJSON válido.');
+    button.setDisabled(false);
+    return;
+  }
+
+  if (!collection || !start || !end) {
+    ui.alert('❗ Complete todos los campos.');
+    button.setDisabled(false);
+    return;
+  }
+
+  if (!/^\d{4}-\d{2}$/.test(start) || !/^\d{4}-\d{2}$/.test(end)) {
+    ui.alert('❗ Formato de fecha inválido. Use YYYY-MM.');
+    button.setDisabled(false);
+    return;
+  }
+
+  var startDate = ee.Date(start + '-01');
+  var endDate = ee.Date(end + '-28');
+
+  var filtered = collection
+    .filterDate(startDate, endDate)
+    .filterBounds(AOI_dynamic)
+    .map(function(img) {
+      var date = img.date().format('YYYY-MM');
+      return img.set('export_date', date);
+    });
+
+  filtered.aggregate_array('export_date').evaluate(function(dates) {
+    if (!dates || dates.length === 0) {
+      panel.add(ui.Label('⚠️ No se encontraron imágenes en ese rango.'));
+      button.setDisabled(false);
+      return;
+    }
+
+    for (var i = 0; i < dates.length; i++) {
+      var dateStr = dates[i];
+      var description = 'imagen_' + dateStr;
+      var image = ee.Image(filtered.toList(dates.length).get(i));
+
+      var url = image.clip(AOI_dynamic).getDownloadURL({
+        name: description,
+        scale: 1000,
+        region: AOI_dynamic.geometry()
+      });
+
+      panel.add(ui.Label({value: description, style: {color: 'blue', textDecoration: 'underline'}, targetUrl: url}));
+    }
+
+    button.setDisabled(false);
+  });
+};
