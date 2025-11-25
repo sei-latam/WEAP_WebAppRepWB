@@ -103,7 +103,7 @@ https://github.com/sei-latam/WEAP_WebAppRepWB/commits/Version1.0
 
 ## Credits and repository of data
 
-The original code, repositories and scripts used in this project, are available at:
+The original code, repositories and scripts used in this project, are available at: [https://earthengine.googlesource.com/users/carlosmendez/ExercicesSEI/+/refs/heads/master/WEAP_WebAppRepWB](https://earthengine.googlesource.com/users/carlosmendez/ExercicesSEI/+/refs/heads/master/WEAP_WebAppRepWB)
 
 ## Contributing
 
