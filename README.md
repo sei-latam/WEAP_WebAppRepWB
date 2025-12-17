@@ -4,7 +4,7 @@
 Development Protocols and Processes for Accessing Data from the Bolivia Surface Water Balance using monthly measurements of temperature, precipitation, runoff, evapotranspiration (real and reference) between 1980 and 2020.
 
 
-Application available at: [https://ee-carlosmendez.projects.earthengine.app/view/hruwatersei](https://ee-carlosmendez.projects.earthengine.app/view/hruwatersei)
+Application available at: [https://ee-carlosmendez.projects.earthengine.app/view/hruwatersei](https://carlosmendezsei.users.earthengine.app/view/hruwatersei)
 
 ### Use and install this repository
 
